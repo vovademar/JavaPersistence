@@ -2,6 +2,10 @@ package nsu.testing;
 
 import nsu.framework.Serialize;
 import nsu.framework.SerializeField;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Serialize
 public class Citizen extends Person{
     @SerializeField
@@ -9,9 +13,12 @@ public class Citizen extends Person{
     private int cnt;
     @SerializeField
     Person person;
+    @SerializeField
+    List<String> stringList = new ArrayList<>();
 
-    public Citizen(String districtName, int cnt, Person person) {
+    public Citizen(String districtName, int cnt, Person person, List<String> stringList) {
         super(person.getName(), person.getAge());
+        this.stringList = stringList;
         this.person = person;
         this.districtName = districtName;
         this.cnt = cnt;
