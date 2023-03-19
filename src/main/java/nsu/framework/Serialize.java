@@ -1,4 +1,4 @@
-package nsu;
+package nsu.framework;
 
 import java.lang.annotation.*;
 
@@ -6,4 +6,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 public @interface Serialize {
     boolean allFields() default false;
+
+    boolean requiresParent() default false;
 }

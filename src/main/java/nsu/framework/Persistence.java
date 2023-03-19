@@ -1,4 +1,4 @@
-package nsu;
+package nsu.framework;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -14,14 +14,16 @@ public class Persistence {
             Serialize an = cls.getAnnotation(Serialize.class);
             HashMap<String, Field> fields = new HashMap<>();
 
-            Field[] flds = cls.getDeclaredFields();
-            System.out.println(an.allFields());
+            if (an.requiresParent()) {
+                fields.putAll(getFields(cls.getSuperclass()));
+            }
+            Field[] declaredFields = cls.getDeclaredFields();
             if (an.allFields()) {
-                for (Field fld : flds) {
+                for (Field fld : declaredFields) {
                     fields.put(fld.getName(), fld);
                 }
             } else {
-                for (Field fld : flds) {
+                for (Field fld : declaredFields) {
                     if (fld.isAnnotationPresent(SerializeField.class)) {
                         SerializeField serializedAnnotation = fld.getAnnotation(SerializeField.class);
                         if (!Objects.equals(serializedAnnotation.Name(), "")) {
@@ -39,12 +41,13 @@ public class Persistence {
         }
     }
 
-    static JsonValue persist(Object obj) {
+    public static JsonValue persist(Object obj) {
         if (obj == null) {
             return JsonValue.NULL;
         }
-        if (alreadySerialized.contains(obj))
+        if (alreadySerialized.contains(obj)) {
             throw new IllegalArgumentException("Cyclic reference detected");
+        }
         alreadySerialized.push(obj);
         Class<?> objClass = obj.getClass();
         String className = objClass.getName();

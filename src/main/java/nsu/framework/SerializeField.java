@@ -1,4 +1,4 @@
-package nsu;
+package nsu.framework;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
