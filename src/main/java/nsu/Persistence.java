@@ -39,11 +39,7 @@ public class Persistence {
         }
     }
 
-    public static String serialize(Object obj) {
-        return serializeProcessing(obj).toString();
-    }
-
-    private static JsonValue serializeProcessing(Object obj) {
+    static JsonValue persist(Object obj) {
         if (obj == null) {
             return JsonValue.NULL;
         }
