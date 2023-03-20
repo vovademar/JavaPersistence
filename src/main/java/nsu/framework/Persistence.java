@@ -37,6 +37,7 @@ public class Persistence {
             return fields;
         } else {
             System.out.println("not annotated");
+            System.out.println(cls.getCanonicalName());
             return null;
         }
     }
@@ -48,7 +49,6 @@ public class Persistence {
         if (alreadySerialized.contains(obj)) {
             throw new IllegalArgumentException("Cyclic reference detected");
         }
-        alreadySerialized.push(obj);
         Class<?> objClass = obj.getClass();
         String className = objClass.getName();
         HashMap<String, Field> objectFields = getFields(objClass);
@@ -62,10 +62,15 @@ public class Persistence {
                 try {
                     Field field = objectFields.get(key);
                     field.setAccessible(true);
-                    if (field.get(obj) != null) {
-                        jsonFields.add(key, field.get(obj).toString());
+                    if (isSimple(field.getType())) {
+                        System.out.println(field.getType());
+                        if (field.get(obj) != null) {
+                            jsonFields.add(key, field.get(obj).toString());
+                        } else {
+                            jsonFields.add(key, JsonValue.NULL);
+                        }
                     } else {
-                        jsonFields.add(key, JsonValue.NULL);
+                        jsonFields.add(key, persist(field.get(obj)));
                     }
                 } catch (IllegalAccessException e) {
                     System.out.println("illegal access???");
@@ -74,6 +79,14 @@ public class Persistence {
             json.add("fields", jsonFields);
         }
         return json.build();
+    }
+
+    private static boolean isSimple(Class<?> aClass) {
+        return aClass.isPrimitive() || aClass.equals(Integer.class) ||
+                aClass.equals(String.class) || aClass.equals(Double.class) ||
+                aClass.equals(Boolean.class) || aClass.equals(Byte.class) ||
+                aClass.equals(Short.class) || aClass.equals(Long.class) ||
+                aClass.equals(Float.class);
     }
 }
 
