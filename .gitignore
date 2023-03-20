@@ -1,5 +1,20 @@
-# Created by https://www.toptal.com/developers/gitignore/api/java,intellij,gradle
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij,gradle
+# Created by https://www.toptal.com/developers/gitignore/api/git,java,intellij,gradle
+# Edit at https://www.toptal.com/developers/gitignore?templates=git,java,intellij,gradle
+
+### Git ###
+# Created by git for backups. To disable backups in Git:
+# $ git config --global mergetool.keepBackup false
+*.orig
+
+# Created by git when using merge tools for conflicts
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*_BACKUP_*.txt
+*_BASE_*.txt
+*_LOCAL_*.txt
+*_REMOTE_*.txt
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
@@ -167,4 +182,4 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-# End of https://www.toptal.com/developers/gitignore/api/java,intellij,gradle
+# End of https://www.toptal.com/developers/gitignore/api/git,java,intellij,gradle
