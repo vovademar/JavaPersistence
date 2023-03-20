@@ -21,19 +21,23 @@ public class PersFramework {
 
 
     public static long idCnt;
-    //    private long id = 0;
+
     public PersFramework() {
 
     }
 
     public static void procId(Object obj) throws IllegalAccessException, IOException, ParseException {
         File file = new File("id.json");
+
+        if(!file.exists()){
+            file.createNewFile();
+        }
+
         Reader reader = new FileReader(file);
         Class c = obj.getClass();
         Field[] fields = c.getDeclaredFields();
         JSONParser parser = new JSONParser();
         JSONObject ob = new JSONObject();
-
         if (file.length() == 0) {
             idCnt = 0;
 
@@ -44,11 +48,14 @@ public class PersFramework {
         }
         for (Field fld : fields) {
             if (fld.isAnnotationPresent(ID.class)) {
-
                 fld.setAccessible(true);
                 fld.set(obj, idCnt);
                 ob.put("id", idCnt);
                 System.out.println(fld.get(obj));
+                Writer writer = new FileWriter(file);
+                writer.write(ob.toJSONString());
+                writer.close();
+                break;
             } else {
                 idCnt--;
                 System.out.println("net");
@@ -57,9 +64,7 @@ public class PersFramework {
 
 
 
-        Writer writer = new FileWriter(file);
-        writer.write(ob.toJSONString());
-        writer.close();
+
         reader.close();
 
 
