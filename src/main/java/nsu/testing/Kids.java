@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 @Serialize
 public class Kids {
+    @SerializeField
     public int age;
     public String str;
 
