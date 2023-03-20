@@ -50,6 +50,7 @@ public class PersFramework {
                 ob.put("id", idCnt);
                 System.out.println(fld.get(obj));
             } else {
+                idCnt--;
                 System.out.println("net");
             }
         }
