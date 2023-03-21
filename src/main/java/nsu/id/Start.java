@@ -12,8 +12,9 @@ public class Start {
     public static void main(String[] args) throws IllegalAccessException, IOException, ParseException {
         TestId testId = new TestId();
         PersFramework pf = new PersFramework();
-
-        pf.procId(testId);
+//        System.out.println(pf.getId());
+//        pf.procId(testId);
+//        System.out.println(pf.checkId(testId));
 
 
     }
