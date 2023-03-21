@@ -19,15 +19,15 @@ import javax.json.*;
 
 public class PersFramework {
 
-
+    public static File file = new File("id.json");
     public static long idCnt;
 
     public PersFramework() {
 
     }
 
-    public static void procId(Object obj) throws IllegalAccessException, IOException, ParseException {
-        File file = new File("id.json");
+    public static Object procId(Object obj) throws IllegalAccessException, IOException, ParseException {
+
 
         if (!file.exists()) {
             file.createNewFile();
@@ -59,11 +59,14 @@ public class PersFramework {
             } else {
                 idCnt--;
                 System.out.println("net");
+                return null;
             }
         }
-
-
         reader.close();
+
+        return obj;
+
+
 
 
     }
