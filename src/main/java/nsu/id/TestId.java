@@ -7,9 +7,11 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 public class TestId {
-    @ID
-    private long id;
 
+    private int tmp;
+
+//    @ID
+    private long id;
     public long getId() {
 
         return (id);

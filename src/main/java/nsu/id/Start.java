@@ -13,7 +13,7 @@ public class Start {
         TestId testId = new TestId();
         PersFramework pf = new PersFramework();
 //        System.out.println(pf.getId());
-//        pf.procId(testId);
+        pf.procId(testId);
 //        System.out.println(pf.checkId(testId));
 
 

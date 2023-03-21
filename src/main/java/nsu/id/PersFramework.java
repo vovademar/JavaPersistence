@@ -53,13 +53,12 @@ public class PersFramework {
                 Writer writer = new FileWriter(file);
                 writer.write(ob.toJSONString());
                 writer.close();
-                break;
-            } else {
-                idCnt--;
-                System.out.println("net");
-                return null;
+                return obj;
             }
+
         }
+        idCnt--;
+        System.out.println("net");
         reader.close();
         System.out.println(idCnt);
         return obj;
@@ -84,9 +83,9 @@ public class PersFramework {
         for (Field fld : fields) {
             if (fld.isAnnotationPresent(ID.class)) {
                 fld.setAccessible(true);
-                if ((long) fld.get(obj) == 0){
+                if ((long) fld.get(obj) == 0) {
                     return -1;
-                }else {
+                } else {
                     return (long) fld.get(obj);
                 }
             }
