@@ -62,7 +62,7 @@ public class Persistence {
                 try {
                     Field field = objectFields.get(key);
                     field.setAccessible(true);
-                    if (isSimple(field.getType())) {
+                    if (!Collection.class.isAssignableFrom(field.getType())) {
                         System.out.println(field.getType());
                         if (field.get(obj) != null) {
                             jsonFields.add(key, field.get(obj).toString());
@@ -79,14 +79,6 @@ public class Persistence {
             json.add("fields", jsonFields);
         }
         return json.build();
-    }
-
-    private static boolean isSimple(Class<?> aClass) {
-        return aClass.isPrimitive() || aClass.equals(Integer.class) ||
-                aClass.equals(String.class) || aClass.equals(Double.class) ||
-                aClass.equals(Boolean.class) || aClass.equals(Byte.class) ||
-                aClass.equals(Short.class) || aClass.equals(Long.class) ||
-                aClass.equals(Float.class);
     }
 }
 
