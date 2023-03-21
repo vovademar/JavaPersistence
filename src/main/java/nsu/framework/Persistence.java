@@ -69,8 +69,14 @@ public class Persistence {
                         } else {
                             jsonFields.add(key, JsonValue.NULL);
                         }
+                    } else if (Collection.class.isAssignableFrom(field.getType())) {
+                        alreadySerialized.push(obj);
+                        jsonFields.add(key, serializeCollection((Collection<?>) field.get(obj)));
+                        alreadySerialized.pop();
                     } else {
+                        alreadySerialized.push(obj);
                         jsonFields.add(key, persist(field.get(obj)));
+                        alreadySerialized.pop();
                     }
                 } catch (IllegalAccessException e) {
                     System.out.println("illegal access???");
@@ -80,5 +86,34 @@ public class Persistence {
         }
         return json.build();
     }
+
+    protected static JsonValue serializeCollection(Collection<?> collection) {
+        if (collection == null) {
+            return JsonValue.NULL;
+        }
+        JsonObjectBuilder json = Json.createObjectBuilder();
+        json.add("ClassName", collection.getClass().getName());
+        if (collection.size() == 0) {
+            json.add("Collection type", JsonValue.NULL);
+        } else {
+            json.add("Collection type", collection.iterator().next().getClass().getName());
+        }
+        JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+
+        for (var element : collection) {
+            if (element == null) {
+                arrBuilder.add(JsonValue.NULL);
+            } else if (Collection.class.isAssignableFrom(element.getClass())) {
+                alreadySerialized.push(collection);
+                arrBuilder.add(serializeCollection((Collection<?>) element));
+                alreadySerialized.pop();
+            } else {
+                arrBuilder.add(element.toString());
+            }
+        }
+        json.add("values", arrBuilder.build());
+        return json.build();
+    }
+
 }
 
