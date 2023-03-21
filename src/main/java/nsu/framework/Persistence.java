@@ -1,5 +1,11 @@
 package nsu.framework;
 
+import nsu.id.ID;
+import nsu.id.PersFramework;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.*;
 import javax.json.*;
@@ -42,7 +48,7 @@ public class Persistence {
         }
     }
 
-    public static JsonValue persist(Object obj) {
+    public static JsonValue persist(Object obj) throws IOException, ParseException {
         if (obj == null) {
             return JsonValue.NULL;
         }
@@ -53,7 +59,25 @@ public class Persistence {
         String className = objClass.getName();
         HashMap<String, Field> objectFields = getFields(objClass);
         JsonObjectBuilder json = Json.createObjectBuilder();
+
+        Field[] findIdField = obj.getClass().getDeclaredFields();
+        boolean idDetected = false;
+        for (Field fld : findIdField) {
+            if (fld.isAnnotationPresent(ID.class)) {
+                try {
+                    PersFramework.procId(obj);
+                } catch (IllegalAccessException | IOException | ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                json.add("ID", PersFramework.getId());
+                idDetected = true;
+            }
+        }
+        if (!idDetected) {
+            json.add("ID", "NULL");
+        }
         json.add("ClassName", className);
+
 
         if (objectFields != null) {
             Set<String> keys = objectFields.keySet();
@@ -62,7 +86,16 @@ public class Persistence {
                 try {
                     Field field = objectFields.get(key);
                     field.setAccessible(true);
-                    if (!Collection.class.isAssignableFrom(field.getType())) {
+                    var cls = field.getType();
+                    boolean isWrapper = Integer.class.isAssignableFrom(cls) ||
+                            String.class.isAssignableFrom(cls) ||
+                            Double.class.isAssignableFrom(cls) ||
+                            Boolean.class.isAssignableFrom(cls) ||
+                            Byte.class.isAssignableFrom(cls) ||
+                            Short.class.isAssignableFrom(cls) ||
+                            Long.class.isAssignableFrom(cls) ||
+                            Float.class.isAssignableFrom(cls);
+                    if (isWrapper || cls.isPrimitive()) {
                         System.out.println(field.getType());
                         if (field.get(obj) != null) {
                             jsonFields.add(key, field.get(obj).toString());
@@ -115,5 +148,14 @@ public class Persistence {
         return json.build();
     }
 
+    private Object deserialize(JsonObject json) {
+        Object obj = new Object();
+        return obj;
+    }
+
+    private Object deserialize(String json) {
+        JsonObject object = Json.createReader(new StringReader(json)).readObject();
+        return deserialize(object);
+    }
 }
 

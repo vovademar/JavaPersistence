@@ -3,12 +3,14 @@ package nsu;
 import nsu.framework.Persistence;
 import nsu.testing.Citizen;
 import nsu.testing.Person;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ParseException {
         Person person = new Person("John", 20);
         String serialized = Persistence.persist(person).toString();
         //System.out.println(serialized);

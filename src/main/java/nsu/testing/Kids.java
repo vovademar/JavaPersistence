@@ -2,11 +2,14 @@ package nsu.testing;
 
 import nsu.framework.Serialize;
 import nsu.framework.SerializeField;
+import nsu.id.ID;
 
 import java.util.ArrayList;
 
 @Serialize
 public class Kids {
+
+    private long id;
     @SerializeField
     public int age;
     public String str;

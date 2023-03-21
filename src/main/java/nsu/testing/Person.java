@@ -2,11 +2,16 @@ package nsu.testing;
 
 import nsu.framework.Serialize;
 import nsu.framework.SerializeField;
+import nsu.id.ID;
 
 @Serialize
 public class Person {
+
+    @ID
+    private long id;
     @SerializeField
     private String name;
+
     @SerializeField(Name = "personAge")
     private int age;
 
