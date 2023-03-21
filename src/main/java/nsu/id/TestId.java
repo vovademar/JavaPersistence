@@ -10,14 +10,15 @@ public class TestId {
 
     private int tmp;
 
-//    @ID
+    //    @ID
     private long id;
+
     public long getId() {
 
         return (id);
     }
 
-    public void printSmth(){
+    public void printSmth() {
         System.out.println("vnejf");
     }
 
