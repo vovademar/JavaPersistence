@@ -20,6 +20,7 @@ public class Main {
         Citizen citizen = new Citizen("Novosibirsk", 1, person, stringList);
         String serialized1 = Persistence.persist(citizen).toString();
         System.out.println(serialized1);
+//        Persistence.flush(Persistence.persist(citizen));
 //        var objectFields = PersistenceFramework.getFields(person.getClass(),person);
 //        System.out.println(objectFields);
 

@@ -4,8 +4,10 @@ import nsu.id.ID;
 import nsu.id.PersFramework;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.*;
 import javax.json.*;
@@ -20,11 +22,8 @@ public class Persistence {
             Serialize an = cls.getAnnotation(Serialize.class);
             HashMap<String, Field> fields = new HashMap<>();
 
-            if (an.requiresParent()) {
-                fields.putAll(getFields(cls.getSuperclass()));
-            }
             Field[] declaredFields = cls.getDeclaredFields();
-            if (an.allFields()) {
+            if (an.serializeAll()) {
                 for (Field fld : declaredFields) {
                     fields.put(fld.getName(), fld);
                 }
@@ -147,7 +146,17 @@ public class Persistence {
         json.add("values", arrBuilder.build());
         return json.build();
     }
-
+    public static File file = new File("serializer.json");
+    public static void flush(JsonValue jsonValue) throws IOException {
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        Writer writer = new java.io.FileWriter(file);
+        JsonWriter jsonWriter = Json.createWriter(writer);
+        jsonWriter.writeObject((JsonObject) jsonValue);
+        jsonWriter.close();
+        writer.close();
+    }
     private Object deserialize(JsonObject json) {
         Object obj = new Object();
         return obj;
