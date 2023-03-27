@@ -1,28 +1,20 @@
 package nsu.id;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import netscape.javascript.JSObject;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
+import nsu.annotations.ID;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import javax.json.*;
 
 
-public class PersFramework {
+public class IdWorker {
 
     public static File file = new File("id.json");
     public static long idCnt;
 
-    public PersFramework() {
+    public IdWorker() {
 
     }
 

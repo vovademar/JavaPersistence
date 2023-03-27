@@ -1,12 +1,13 @@
 package nsu.testing;
 
-import nsu.framework.Serialize;
-import nsu.framework.SerializeField;
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
 
 @Serialize
 public class Person {
     @SerializeField
     private String name;
+
     @SerializeField(Name = "personAge")
     private int age;
 

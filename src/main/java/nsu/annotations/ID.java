@@ -1,4 +1,4 @@
-package nsu.id;
+package nsu.annotations;
 
 
 import java.lang.annotation.ElementType;

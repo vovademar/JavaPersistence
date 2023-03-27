@@ -1,16 +1,14 @@
-package nsu.id;
+package nsu.testing;
 
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.UUID;
+import nsu.annotations.ID;
 
 public class TestId {
 
+    private long u;
     private int tmp;
 
-//    @ID
+    @ID
     private long id;
     public long getId() {
 

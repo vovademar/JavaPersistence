@@ -1,9 +1,7 @@
 package nsu.testing;
 
-import nsu.framework.Serialize;
-import nsu.framework.SerializeField;
-
-import java.util.ArrayList;
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
 
 @Serialize
 public class Kids {

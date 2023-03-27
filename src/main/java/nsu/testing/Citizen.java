@@ -1,7 +1,7 @@
 package nsu.testing;
 
-import nsu.framework.Serialize;
-import nsu.framework.SerializeField;
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
 
 import java.util.ArrayList;
 import java.util.List;

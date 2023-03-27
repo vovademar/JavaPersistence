@@ -1,5 +1,8 @@
 package nsu.framework;
 
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
+
 import java.lang.reflect.Field;
 import java.util.*;
 import javax.json.*;
