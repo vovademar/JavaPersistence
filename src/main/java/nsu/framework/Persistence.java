@@ -210,7 +210,7 @@ public class Persistence {
         };
     }
 
-    private static Collection<?> deserializeCollection(JsonObject jsonObject) throws Exception {
+    static Collection<?> deserializeCollection(JsonObject jsonObject) throws Exception {
         String className = jsonObject.getString("ClassName");
         Class<?> cls = Class.forName(className);
         Collection<Object> collection = (Collection<Object>) cls.getDeclaredConstructor().newInstance();
