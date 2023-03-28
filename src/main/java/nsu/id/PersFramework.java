@@ -85,5 +85,7 @@ public class PersFramework {
 
     }
 
-
+    public void setFile(File file) {
+        PersFramework.file = file;
+    }
 }
