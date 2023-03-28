@@ -31,8 +31,8 @@ public class Main {
         System.out.println(c.getName());
         String serializedDeserialize = Persistence.persist(c).toString();
         System.out.println(serializedDeserialize);
-        System.out.println(Persistence.findById(serialized, "62"));
-
+        System.out.println(Persistence.findById(serialized, "114"));
+//        System.out.println(Persistence.update(serialized,  "districtName", "Moscow"));
 //        ArrayList<String> days = new ArrayList<>();
 //        days.add("monday");
 //        days.add("friday");
