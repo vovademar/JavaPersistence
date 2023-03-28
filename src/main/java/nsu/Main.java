@@ -7,6 +7,7 @@ import nsu.testing.Student;
 import nsu.testing.Subjects;
 import org.json.simple.parser.ParseException;
 
+import javax.json.JsonValue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,8 @@ public class Main {
         stringList.add("first");
         stringList.add("second");
         Citizen citizen = new Citizen("Novosibirsk", person, stringList);
-        String serialized1 = Persistence.persist(citizen).toString();
+        JsonValue serialized = Persistence.persist(citizen);
+        String serialized1 = serialized.toString();
         System.out.println(serialized1);
 
         Citizen c = (Citizen) Persistence.deserializeObject(serialized1, null);
@@ -29,7 +31,7 @@ public class Main {
         System.out.println(c.getName());
         String serializedDeserialize = Persistence.persist(c).toString();
         System.out.println(serializedDeserialize);
-
+        System.out.println(Persistence.findById(serialized, "62"));
 
 //        ArrayList<String> days = new ArrayList<>();
 //        days.add("monday");
