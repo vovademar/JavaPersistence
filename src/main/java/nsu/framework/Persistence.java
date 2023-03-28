@@ -386,8 +386,12 @@ public class Persistence {
         if (jsonValue instanceof JsonObject jsonObject) {
 
             JsonObject firstLayer = jsonObject.getJsonObject("fields");
-            if (firstLayer.getString("id").equals(id)) {
-                return jsonObject;
+            try {
+                if (firstLayer.getString("id").equals(id)) {
+                    return jsonObject;
+                }
+            } catch (NullPointerException e) {
+                return null;
             }
 
             if (jsonObject.containsKey("fields")) {
