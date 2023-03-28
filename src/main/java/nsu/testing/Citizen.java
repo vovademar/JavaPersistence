@@ -13,9 +13,9 @@ import java.util.List;
 public class Citizen extends Person{
     @SerializeField
     private String districtName;
-
+    @SerializeField
     @ID
-    private long id;
+    public long id;
     private int cnt;
     @SerializeField
     Person person;
@@ -28,7 +28,6 @@ public class Citizen extends Person{
         this.stringList = stringList;
         this.person = person;
         this.districtName = districtName;
-        this.cnt = cnt;
     }
 
     public Citizen(String name, int age, String districtName, int cnt) {
