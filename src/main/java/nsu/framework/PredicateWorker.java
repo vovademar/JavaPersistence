@@ -46,4 +46,7 @@ public class PredicateWorker<T> implements Predicate<JsonObject> {
         }
         return false;
     }
+
+
+
 }
