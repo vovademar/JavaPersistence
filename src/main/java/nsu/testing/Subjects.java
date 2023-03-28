@@ -1,6 +1,6 @@
 package nsu.testing;
 
-import nsu.framework.Serialize;
+import nsu.annotations.Serialize;
 
 import java.util.ArrayList;
 
@@ -14,14 +14,15 @@ public class Subjects {
         return days;
     }
 
-    public Subjects(){}
+    public Subjects() {
+    }
 
-    public Subjects( int roomNum, String subjectName){
+    public Subjects(int roomNum, String subjectName) {
         this.roomNumber = roomNum;
         this.subjectName = subjectName;
     }
 
-    public Subjects(int i, String subjectName, ArrayList<String> collection){
+    public Subjects(int i, String subjectName, ArrayList<String> collection) {
         this.roomNumber = i;
         this.subjectName = subjectName;
         this.days = collection;

@@ -1,17 +1,17 @@
 package nsu.testing;
 
-import nsu.framework.DeserializeField;
-import nsu.framework.DeserializeConstructor;
-import nsu.framework.Serialize;
-import nsu.framework.SerializeField;
-import nsu.id.ID;
+import nsu.annotations.DeserializeField;
+import nsu.annotations.DeserializeConstructor;
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
+import nsu.annotations.ID;
 
 
 @Serialize()
 public class Student {
-
+    @SerializeField
     @ID
-    private long id;
+    public long id;
     @SerializeField()
     private String name;
     @SerializeField(Name = "personAge")

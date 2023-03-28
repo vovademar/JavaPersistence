@@ -39,14 +39,12 @@ public class PredicateWorker<T> implements Predicate<JsonObject> {
                 value = jsonObject.getString(pth);
                 val = (T) convert(type, value);
                 return predicate.test(val);
-            }
-            else {
+            } else {
                 obj = obj.getJsonObject(pth).getJsonObject("fields");
             }
         }
         return false;
     }
-
 
 
 }

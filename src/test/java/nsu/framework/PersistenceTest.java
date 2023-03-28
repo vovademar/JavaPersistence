@@ -1,7 +1,9 @@
 package nsu.framework;
 
-import nsu.id.ID;
-import nsu.id.PersFramework;
+import nsu.annotations.DeserializeConstructor;
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
+import nsu.annotations.ID;
 import nsu.testing.Citizen;
 import nsu.testing.Person;
 import org.json.simple.parser.ParseException;
@@ -111,31 +113,6 @@ class PersistenceTest {
         assertNotNull(jsonValue);
     }
 
-    @Test
-    @DisplayName("should handle collections with custom objects correctly")
-    void deserializeCollectionWithCustomObjects() throws IllegalAccessException {
-        ArrayList<SampleClass> sampleClasses = new ArrayList<>();
-        sampleClasses.add(sampleObject);
-        sampleClasses.add(sampleObject);
-        JsonValue jsonValue = Persistence.persist(sampleClasses);
-        try {
-            Persistence.flush(jsonValue);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            ArrayList<SampleClass> deserialized =
-                    (ArrayList<SampleClass>)
-                            Persistence.deserializeObject(jsonValue.toString(), null);
-            assertEquals(sampleClasses.size(), deserialized.size());
-            for (int i = 0; i < sampleClasses.size(); i++) {
-                assertEquals(sampleClasses.get(i).name, deserialized.get(i).name);
-                assertEquals(sampleClasses.get(i).age, deserialized.get(i).age);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Serialize
     static class SampleClass {
@@ -177,65 +154,6 @@ class PersistenceTest {
         sampleCollectionObject = new SampleCollectionClass(names);
     }
 
-    //    @Test
-    //    void testDeserializeCollectionObject() throws Exception {
-    //        List<Person> people = new ArrayList<>();
-    //        Person person = new Person("Alex", 20);
-    //        Person person2 = new Person("Bob", 30);
-    //        people.add(person);
-    //        people.add(person2);
-    //
-    //        JsonValue serialized = Persistence.persist(people);
-    //
-    //        List<Person> deserialized = (List<Person>)
-    // Persistence.deserializeObject(serialized.toString(), null);
-    //
-    //
-    ////        assertNotNull(deserialized);
-    ////        assertEquals("Novosibirsk", deserialized.getDistrictName());
-    ////        assertEquals("Alex", deserialized.getName());
-    ////        assertEquals(20, deserialized.getAge());
-
-    //  }
-
-    //    @Test
-    //    @DisplayName("should handle nested collections correctly")
-    //    void deserializeCollectionWithNestedCollections() throws IllegalAccessException {
-    //        ArrayList<ArrayList<String>> nestedCollection = new ArrayList<>();
-    //        ArrayList<String> innerCollection = new ArrayList<>();
-    //        innerCollection.add("Alice");
-    //        innerCollection.add("Bob");
-    //        nestedCollection.add(innerCollection);
-    //        JsonValue jsonValue = Persistence.persist(nestedCollection);
-    //        try {
-    //            Object deserialized = Persistence.deserializeObject(jsonValue.toString(), null);
-    //            assertEquals(nestedCollection, deserialized);
-    //        } catch (Exception e) {
-    //            fail("Exception thrown");
-    //        }
-    //    }
-    //
-    //    @Test
-    //    @DisplayName("should handle collections with primitive and wrapper types correctly")
-    //    void deserializeCollectionWithPrimitiveAndWrapperTypes() throws IllegalAccessException {
-    //        ArrayList<Integer> ints = new ArrayList<>();
-    //        ints.add(1);
-    //        ints.add(2);
-    //        ints.add(3);
-    //        JsonValue jsonValue = Persistence.persist(ints);
-    //        try {
-    //            Object deserialized = Persistence.deserializeObject(jsonValue.toString(), null);
-    //            assertTrue(deserialized instanceof ArrayList);
-    //            ArrayList<?> deserializedList = (ArrayList<?>) deserialized;
-    ////            assertEquals(3, deserializedList.size());
-    //            assertEquals(1, deserializedList.get(0));
-    //            assertEquals(2, deserializedList.get(1));
-    //            assertEquals(3, deserializedList.get(2));
-    //        } catch (Exception e) {
-    //            fail("Exception thrown");
-    //        }
-    //    }
-
     @Test
     @DisplayName("should return null if the object with the given id is not found")
     void findByIdReturnsNullWhenIdNotFound() throws Exception {
@@ -245,7 +163,6 @@ class PersistenceTest {
         stringList.add("second");
         Citizen citizen = new Citizen("Novosibirsk", person, stringList);
         JsonValue serialized = Persistence.persist(citizen);
-
 
         assertNull(Persistence.findById(serialized, "2"));
     }

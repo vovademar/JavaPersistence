@@ -1,7 +1,11 @@
 package nsu.framework;
 
-import nsu.id.ID;
-import nsu.id.PersFramework;
+import nsu.annotations.DeserializeConstructor;
+import nsu.annotations.DeserializeField;
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
+import nsu.annotations.ID;
+import nsu.id.IdGenerator;
 import org.json.simple.parser.ParseException;
 
 import javax.json.*;
@@ -49,7 +53,6 @@ public class Persistence {
             return fields;
         } else {
             System.out.println("not annotated");
-            System.out.println(cls.getCanonicalName());
             return null;
         }
     }
@@ -71,7 +74,7 @@ public class Persistence {
             if (fld.isAnnotationPresent(ID.class)) {
                 if (fld.getLong(obj) == 0) {
                     try {
-                        PersFramework.procId(obj);
+                        IdGenerator.procId(obj);
                     } catch (IllegalAccessException | IOException | ParseException e) {
                         throw new RuntimeException(e);
                     }
@@ -92,9 +95,7 @@ public class Persistence {
                     var cls = field.getType();
                     boolean isWrapper = Integer.class.isAssignableFrom(cls) || String.class.isAssignableFrom(cls) || Double.class.isAssignableFrom(cls) || Boolean.class.isAssignableFrom(cls) || Byte.class.isAssignableFrom(cls) || Short.class.isAssignableFrom(cls) || Long.class.isAssignableFrom(cls) || Float.class.isAssignableFrom(cls);
                     if (isWrapper || cls.isPrimitive()) {
-                        System.out.println(field.getType());
                         if (field.get(obj) != null) {
-                            System.out.println(field.getName() + " " + field.get(obj) + " - obj");
                             jsonFields.add(key, field.get(obj).toString());
                         } else {
                             jsonFields.add(key, JsonValue.NULL);
@@ -252,15 +253,12 @@ public class Persistence {
                 }
             }
         }
-
-        if (res == null && an.requiresParent()) res = findField(cls.getSuperclass(), fieldName);
         return res;
     }
 
     private static Object deserializeFields(JsonObject jsonObject) throws Exception {
         String className = jsonObject.getString("ClassName");
         Class<?> cls = Class.forName(className);
-        System.out.println(cls);
         Object[] constructors = Arrays.stream(cls.getConstructors()).filter(c -> c.isAnnotationPresent(DeserializeConstructor.class)).toArray();
         if (constructors.length == 1) {
             Constructor<?> constructor = (Constructor<?>) constructors[0];

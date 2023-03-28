@@ -1,16 +1,16 @@
 package nsu.testing;
 
-import nsu.framework.DeserializeField;
-import nsu.framework.DeserializeConstructor;
-import nsu.framework.Serialize;
-import nsu.framework.SerializeField;
-import nsu.id.ID;
+import nsu.annotations.DeserializeField;
+import nsu.annotations.DeserializeConstructor;
+import nsu.annotations.Serialize;
+import nsu.annotations.SerializeField;
+import nsu.annotations.ID;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Serialize
-public class Citizen extends Person{
+public class Citizen extends Person {
     @SerializeField
     private String districtName;
     @SerializeField
@@ -21,6 +21,7 @@ public class Citizen extends Person{
     Person person;
     @SerializeField
     List<String> stringList = new ArrayList<>();
+
     @DeserializeConstructor
     public Citizen(@DeserializeField("districtName") String districtName,
                    @DeserializeField("person") Person person, @DeserializeField("stringList") List<String> stringList) {

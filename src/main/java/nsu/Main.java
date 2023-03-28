@@ -15,8 +15,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
         Person person = new Person("John", 20);
-        //String serialized = Persistence.persist(person).toString();
-        //System.out.println(serialized);
         List<String> stringList = new ArrayList<>();
         stringList.add("first");
         stringList.add("second");
@@ -31,14 +29,14 @@ public class Main {
         System.out.println(c.getName());
         String serializedDeserialize = Persistence.persist(c).toString();
         System.out.println(serializedDeserialize);
-        System.out.println(Persistence.findById(serialized, "114"));
-//        System.out.println(Persistence.update(serialized,  "districtName", "Moscow"));
+        System.out.println(Persistence.findById(serialized, "184"));
+
+
 //        ArrayList<String> days = new ArrayList<>();
 //        days.add("monday");
 //        days.add("friday");
 //        Student ex = new Student("Alex", 21, new Subjects(2128,"Math", days));
-
-//        //ex.setPrikol(new Subjects(1,"tmp"));
+//
 //        String res = Persistence.persist(ex).toString();
 //        System.out.println(res);
 //
@@ -48,12 +46,5 @@ public class Main {
 //        System.out.println(p.getAge());
 //        System.out.println(p.getName());
 
-
-//        Persistence.flush(Persistence.persist(citizen));
-//        var objectFields = PersistenceFramework.getFields(person.getClass(),person);
-//        System.out.println(objectFields);
-
-        // Object person2 = PersistenceFramework.deserializeObject(serialized, null);
-        //System.out.println(person2);
     }
 }
