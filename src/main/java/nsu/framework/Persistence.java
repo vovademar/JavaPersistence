@@ -381,4 +381,39 @@ public class Persistence {
         }
     }
 
+<<<<<<< HEAD
 }
+=======
+    public static JsonValue findById(JsonValue jsonValue, String id){
+        if (jsonValue instanceof JsonObject jsonObject){
+
+            JsonObject firstLayer = jsonObject.getJsonObject("fields");
+            if (firstLayer.getString("id").equals(id)) {
+                return jsonObject;
+            }
+
+            if (jsonObject.containsKey("fields")){
+                JsonObject fields = jsonObject.getJsonObject("fields");
+                for (String key : fields.keySet()){
+                    JsonValue value = findById(fields.get(key), id);
+                    if (value != null){
+                        return value;
+                    }
+                }
+            }
+        } else if (jsonValue instanceof JsonArray jsonArray){
+            for (JsonValue value : jsonArray){
+                JsonValue result = findById(value, id);
+                if (result != null){
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
+
+
+}
+
+>>>>>>> 17bc8545f335c05d0a8655ab9c8e771374013ba5
