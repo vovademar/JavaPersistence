@@ -13,7 +13,7 @@ import java.util.List;
 public class Citizen extends Person{
     @SerializeField
     private String districtName;
-
+    @SerializeField
     @ID
     private long id;
     private int cnt;

@@ -75,7 +75,7 @@ public class Persistence {
                 } catch (IllegalAccessException | IOException | ParseException e) {
                     throw new RuntimeException(e);
                 }
-                json.add("ID", PersFramework.getId());
+                //json.add("ID", PersFramework.getId());
                 idDetected = true;
             }
         }
@@ -97,6 +97,7 @@ public class Persistence {
                     if (isWrapper || cls.isPrimitive()) {
                         System.out.println(field.getType());
                         if (field.get(obj) != null) {
+                            System.out.println(field.getName() +" " + field.get(obj)+ " - obj");
                             jsonFields.add(key, field.get(obj).toString());
                         } else {
                             jsonFields.add(key, JsonValue.NULL);
@@ -114,6 +115,7 @@ public class Persistence {
                     System.out.println("illegal access???");
                 }
             }
+
             json.add("fields", jsonFields);
         }
         return json.build();
@@ -276,9 +278,10 @@ public class Persistence {
                 }
             }
 
-            int id = jsonObject.getInt("ID");
 
             JsonObject fields = jsonObject.getJsonObject("fields");
+            String id = fields.getString("id");
+
             ArrayList<Object> constrParams = new ArrayList<>();
             HashMap<String, Object> fieldsInstance = new HashMap<>();
             Set<String> keys = fields.keySet();
