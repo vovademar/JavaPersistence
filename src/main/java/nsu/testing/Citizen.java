@@ -39,4 +39,12 @@ public class Citizen extends Person{
     public long getId() {
         return id;
     }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public Object getPerson() {
+        return person;
+    }
 }

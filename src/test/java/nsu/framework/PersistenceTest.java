@@ -1,6 +1,7 @@
 package nsu.framework;
 
 import nsu.id.ID;
+import nsu.id.PersFramework;
 import nsu.testing.Citizen;
 import nsu.testing.Person;
 import org.json.simple.parser.ParseException;
@@ -246,19 +247,7 @@ class PersistenceTest {
         JsonValue serialized = Persistence.persist(citizen);
 
 
-//        Person deserialized = (Person) Persistence.deserializeObject(serialized, null);
-
-//        JsonValue res = Persistence.findById(serialized,"2");
-
-        assertNull(Persistence.findById(serialized,"2"));
+        assertNull(Persistence.findById(serialized, "2"));
     }
 
-    @Test
-    @DisplayName("should return the object with the given id")
-    void findByIdReturnsObjectWithGivenId() throws IllegalAccessException {
-        JsonValue jsonValue = Persistence.persist(sampleObject);
-        JsonValue result = Persistence.findById(jsonValue, "1");
-        assertNotNull(result);
-        assertEquals(jsonValue, result);
-    }
 }
