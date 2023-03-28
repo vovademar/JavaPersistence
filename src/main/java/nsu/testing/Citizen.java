@@ -1,5 +1,7 @@
 package nsu.testing;
 
+import nsu.framework.DeserializeField;
+import nsu.framework.DeserializeConstructor;
 import nsu.framework.Serialize;
 import nsu.framework.SerializeField;
 import nsu.id.ID;
@@ -19,8 +21,9 @@ public class Citizen extends Person{
     Person person;
     @SerializeField
     List<String> stringList = new ArrayList<>();
-
-    public Citizen(String districtName, int cnt, Person person, List<String> stringList) {
+    @DeserializeConstructor
+    public Citizen(@DeserializeField("districtName") String districtName,
+                   @DeserializeField("person") Person person, @DeserializeField("stringList") List<String> stringList) {
         super(person.getName(), person.getAge());
         this.stringList = stringList;
         this.person = person;
@@ -32,5 +35,9 @@ public class Citizen extends Person{
         super(name, age);
         this.districtName = districtName;
         this.cnt = cnt;
+    }
+
+    public long getId() {
+        return id;
     }
 }

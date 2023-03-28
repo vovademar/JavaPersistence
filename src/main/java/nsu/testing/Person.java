@@ -1,5 +1,7 @@
 package nsu.testing;
 
+import nsu.framework.DeserializeField;
+import nsu.framework.DeserializeConstructor;
 import nsu.framework.Serialize;
 import nsu.framework.SerializeField;
 import nsu.id.ID;
@@ -17,8 +19,8 @@ public class Person {
 
     @SerializeField(Name = "comlexTest")
     Kids kids = new Kids();
-
-    public Person(String name, int age) {
+    @DeserializeConstructor
+    public Person(@DeserializeField("name") String name, @DeserializeField("personAge") int age) {
         this.name = name;
         this.age = age;
     }

@@ -7,4 +7,5 @@ import java.lang.annotation.*;
 public @interface Serialize {
 
     boolean serializeAll() default false;
+    boolean requiresParent() default false;
 }
