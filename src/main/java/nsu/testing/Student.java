@@ -20,6 +20,10 @@ public class Student {
     @SerializeField()
     public Subjects subjects;
 
+    public long getId() {
+        return id;
+    }
+
     @DeserializeConstructor
     public Student(@DeserializeField("name") String name, @DeserializeField("personAge") int age,
                    @DeserializeField("subjects") Subjects subjects) {

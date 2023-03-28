@@ -36,4 +36,8 @@ public class Citizen extends Person{
         this.districtName = districtName;
         this.cnt = cnt;
     }
+
+    public long getId() {
+        return id;
+    }
 }

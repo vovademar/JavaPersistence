@@ -202,10 +202,10 @@ public class Persistence {
     }
 
     private static Object deserializeJsonObject(JsonObject object) throws Exception {
-        String objectType = object.containsKey("fields") ? "fields" : object.containsKey("array") ? "array" : null;
+        String objectType = object.containsKey("fields") ? "fields" : object.containsKey("array") ? "array" : object.containsKey("ID") ? "ID" : null;
 
         return switch (Objects.requireNonNull(objectType)) {
-            case "fields" -> deserializeFields(object);
+            case "fields", "ID" -> deserializeFields(object);
             case "array" -> deserializeCollection(object);
             default -> null;
         };
@@ -257,7 +257,6 @@ public class Persistence {
         if (res == null && an.requiresParent()) res = findField(cls.getSuperclass(), fieldName);
         return res;
     }
-
     private static Object deserializeFields(JsonObject jsonObject) throws Exception {
         String className = jsonObject.getString("ClassName");
         Class<?> cls = Class.forName(className);
@@ -276,6 +275,8 @@ public class Persistence {
                     }
                 }
             }
+
+            int id = jsonObject.getInt("ID");
 
             JsonObject fields = jsonObject.getJsonObject("fields");
             ArrayList<Object> constrParams = new ArrayList<>();
@@ -343,11 +344,14 @@ public class Persistence {
             for (String key : fieldKeys) {
                 Field fld = findField(cls, key);
                 fld.setAccessible(true);
-                fld.set(res, fieldsInstance.get(key));
+                if (key.equals("ID")) {
+                    fld.set(res, id);
+                } else {
+                    fld.set(res, fieldsInstance.get(key));
+                }
             }
             return res;
-        }
-        else {
+        } else {
 
             constructors = Arrays.stream(cls.getConstructors()).filter(c -> c.getParameterCount() == 0).toArray();
             Object res;

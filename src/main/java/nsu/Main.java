@@ -25,23 +25,24 @@ public class Main {
 
         Citizen c = (Citizen) Persistence.deserializeObject(serialized1, null);
         assert c != null;
+        System.out.println(c.getId());
         String serializedDeserialize = Persistence.persist(c).toString();
         System.out.println(serializedDeserialize);
 
-        ArrayList<String> days = new ArrayList<>();
-        days.add("monday");
-        days.add("friday");
-        Student ex = new Student("Alex", 21, new Subjects(2128,"Math", days));
+//        ArrayList<String> days = new ArrayList<>();
+//        days.add("monday");
+//        days.add("friday");
+//        Student ex = new Student("Alex", 21, new Subjects(2128,"Math", days));
 
-        //ex.setPrikol(new Subjects(1,"tmp"));
-        String res = Persistence.persist(ex).toString();
-        System.out.println(res);
-
-        Student p = (Student) Persistence.deserializeObject(res, null);
-        assert p != null;
-        System.out.println(p.getSubjects());
-        System.out.println(p.getAge());
-        System.out.println(p.getName());
+//        //ex.setPrikol(new Subjects(1,"tmp"));
+//        String res = Persistence.persist(ex).toString();
+//        System.out.println(res);
+//
+//        Student p = (Student) Persistence.deserializeObject(res, null);
+//        assert p != null;
+//        System.out.println(p.getSubjects());
+//        System.out.println(p.getAge());
+//        System.out.println(p.getName());
 
 
 //        Persistence.flush(Persistence.persist(citizen));
