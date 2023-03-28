@@ -54,7 +54,7 @@ public class Persistence {
         }
     }
 
-    public static JsonValue persist(Object obj) throws IOException, ParseException {
+    public static JsonValue persist(Object obj) throws IllegalAccessException {
         if (obj == null) {
             return JsonValue.NULL;
         }
@@ -67,21 +67,18 @@ public class Persistence {
         JsonObjectBuilder json = Json.createObjectBuilder();
 
         Field[] findIdField = obj.getClass().getDeclaredFields();
-        boolean idDetected = false;
         for (Field fld : findIdField) {
             if (fld.isAnnotationPresent(ID.class)) {
-                try {
-                    PersFramework.procId(obj);
-                } catch (IllegalAccessException | IOException | ParseException e) {
-                    throw new RuntimeException(e);
+                if (fld.getLong(obj) == 0) {
+                    try {
+                        PersFramework.procId(obj);
+                    } catch (IllegalAccessException | IOException | ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                //json.add("ID", PersFramework.getId());
-                idDetected = true;
             }
         }
-        if (!idDetected) {
-            json.add("ID", "NULL");
-        }
+
         json.add("ClassName", className);
 
 
@@ -97,7 +94,7 @@ public class Persistence {
                     if (isWrapper || cls.isPrimitive()) {
                         System.out.println(field.getType());
                         if (field.get(obj) != null) {
-                            System.out.println(field.getName() +" " + field.get(obj)+ " - obj");
+                            System.out.println(field.getName() + " " + field.get(obj) + " - obj");
                             jsonFields.add(key, field.get(obj).toString());
                         } else {
                             jsonFields.add(key, JsonValue.NULL);
@@ -259,6 +256,7 @@ public class Persistence {
         if (res == null && an.requiresParent()) res = findField(cls.getSuperclass(), fieldName);
         return res;
     }
+
     private static Object deserializeFields(JsonObject jsonObject) throws Exception {
         String className = jsonObject.getString("ClassName");
         Class<?> cls = Class.forName(className);
@@ -280,7 +278,6 @@ public class Persistence {
 
 
             JsonObject fields = jsonObject.getJsonObject("fields");
-            String id = fields.getString("id");
 
             ArrayList<Object> constrParams = new ArrayList<>();
             HashMap<String, Object> fieldsInstance = new HashMap<>();
@@ -323,7 +320,6 @@ public class Persistence {
 
             Set<String> fieldKeys = fieldsInstance.keySet();
             for (String key : fieldKeys) {
-                Object value = fieldsInstance.get(key);
                 Field field = findField(cls, key);
                 field.setAccessible(true);
                 Class<?> fieldClass = field.getType();
@@ -348,7 +344,7 @@ public class Persistence {
                 Field fld = findField(cls, key);
                 fld.setAccessible(true);
                 if (key.equals("ID")) {
-                    fld.set(res, id);
+                    fld.set(res, fieldsInstance.get(key));
                 } else {
                     fld.set(res, fieldsInstance.get(key));
                 }

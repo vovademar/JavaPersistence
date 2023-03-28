@@ -25,10 +25,11 @@ public class Main {
 
         Citizen c = (Citizen) Persistence.deserializeObject(serialized1, null);
         assert c != null;
-        System.out.println(c.getId());
+        System.out.println(c.getId() + " - id after deserialize");
         System.out.println(c.getName());
         String serializedDeserialize = Persistence.persist(c).toString();
         System.out.println(serializedDeserialize);
+
 
 //        ArrayList<String> days = new ArrayList<>();
 //        days.add("monday");
