@@ -8,9 +8,9 @@ import nsu.id.ID;
 
 @Serialize
 public class Person {
-
+    @SerializeField
     @ID
-    private long id;
+    public long id;
     @SerializeField
     private String name;
 
