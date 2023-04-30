@@ -1,1 +1,1 @@
-# JavaPersistence
+# JavaPersistence framework
